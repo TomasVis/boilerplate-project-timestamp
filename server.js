@@ -23,10 +23,24 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
-
+console.log("outside")
 app.get("/api/timestamp/:date_string?", function (req, res) {
+	let date = 0;
+	if(isNaN(req.params.date_string)){
+		date = new Date( Date.parse(req.params.date_string));
+	}
+	else{
+		date = new Date(Number(req.params.date_string))
+	}
+	console.log(date)
+	//console.log(req.params.date_string)
+	//console.log(typeof req.params.date_string)
+	//console.log(Date.parse(new Date(req.params.date_string)))
 	
-  res.send(new Date(req.params.date_string));
+	//req.params.date_string = Number(req.params.date_string);
+	//console.log(req.params)
+  
+  res.send({"unix": date.getTime(), "utc" : date.toUTCString() })
 });
 
 app.get('/:word/echo', function(req,res){
