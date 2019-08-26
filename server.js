@@ -23,30 +23,22 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
-console.log("outside")
+
 app.get("/api/timestamp/:date_string?", function (req, res) {
+
 	let date = 0;
-	if(isNaN(req.params.date_string)){
+	if(req.params.date_string == undefined){
+		date = new Date()
+	}
+	else if(isNaN(req.params.date_string)){
 		date = new Date( Date.parse(req.params.date_string));
 	}
-	else{
+	else if (!isNaN(req.params.date_string)){
 		date = new Date(Number(req.params.date_string))
 	}
-	console.log(date)
-	//console.log(req.params.date_string)
-	//console.log(typeof req.params.date_string)
-	//console.log(Date.parse(new Date(req.params.date_string)))
-	
-	//req.params.date_string = Number(req.params.date_string);
-	//console.log(req.params)
-  
+ 
   res.send({"unix": date.getTime(), "utc" : date.toUTCString() })
 });
-
-app.get('/:word/echo', function(req,res){
-  res.send({echo: req.params.word})
-
-})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
