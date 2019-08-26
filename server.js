@@ -24,11 +24,15 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/timestamp/:date_string", function (req, res) {
-	console.log(req.params)
-  res.send(req.params.date_string);
+app.get("/api/timestamp/:date_string?", function (req, res) {
+	
+  res.send(new Date(req.params.date_string));
 });
 
+app.get('/:word/echo', function(req,res){
+  res.send({echo: req.params.word})
+
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
